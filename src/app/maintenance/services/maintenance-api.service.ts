@@ -8,7 +8,7 @@ import { CreateMaintenanceOrder } from '../models/maintenance-order';
   providedIn: 'root'
 })
 export class MaintenanceApiService {
-  private baseUrl = 'http://localhost:8080/api/v1';
+  private baseUrl = 'https://maintenance-web-hwgbdtehgqbjdva4.centralus-01.azurewebsites.net/api/v1';
 
   constructor(private http: HttpClient) { }
 
