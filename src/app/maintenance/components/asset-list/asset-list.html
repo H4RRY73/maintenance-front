@@ -1,0 +1,117 @@
+<div class="dashboard-container">
+
+  <header class="page-header">
+    <div class="header-content">
+      <h1>🏭 Control de Planta</h1>
+      <p>Gestión centralizada de activos y mantenimiento</p>
+    </div>
+    <button class="btn-primary" (click)="goToNewAsset()">
+      <span>+</span> Registrar Activo
+    </button>
+  </header>
+
+  <section class="card">
+    <div class="card-header">
+      <h2>Inventario de Máquinas</h2>
+      <span class="badge-count">{{ assets.length }} Activos</span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="modern-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Equipo</th>
+          <th>Modelo</th>
+          <th>N° Serie</th>
+          <th>Estado Actual</th>
+          <th class="text-right">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (asset of assets; track asset.id) {
+            <tr class="fade-in">
+              <td class="text-muted">#{{ asset.id }}</td>
+              <td class="font-bold">{{ asset.name }}</td>
+              <td>{{ asset.model }}</td>
+              <td><span class="mono-text">{{ asset.serialNumber }}</span></td>
+              <td>
+                <span class="status-pill"
+                      [ngClass]="{
+                        'operational': asset.status === 'OPERATIONAL',
+                        'maintenance': asset.status === 'UNDER_MAINTENANCE',
+                        'down': asset.status === 'OUT_OF_SERVICE'
+                      }">
+                  <span class="dot"></span>
+                  {{ asset.status === 'OPERATIONAL' ? 'Operativo' :
+                  asset.status === 'UNDER_MAINTENANCE' ? 'En Mantenimiento' : 'Fuera de Servicio' }}
+                </span>
+              </td>
+              <td class="text-right">
+                @if (asset.status === 'OPERATIONAL') {
+                  <button class="btn-secondary" (click)="goToMaintenance(asset.id)">
+                    🔧 Programar
+                  </button>
+                } @else {
+                  <span class="text-muted text-sm">Bloqueado</span>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">
+                <div class="empty-content">
+                  <span class="emoji">📦</span>
+                  <h3>No hay activos registrados</h3>
+                  <p>Comienza registrando tu primera máquina con el botón superior.</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  @if (orders.length > 0) {
+    <section class="card mt-4">
+      <div class="card-header warning-header">
+        <h2>📋 Mantenimientos en Curso</h2>
+        <span class="badge-count warning">{{ orders.length }} Pendientes</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="modern-table">
+          <thead>
+          <tr>
+            <th>Orden</th>
+            <th>Máquina Afectada</th>
+            <th>Descripción del Trabajo</th>
+            <th>Estado</th>
+            <th class="text-right">Gestión</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (order of orders; track order.id) {
+              <tr class="highlight-row">
+                <td class="text-muted">#{{ order.id }}</td>
+                <td class="font-bold">{{ order.assetName }}</td>
+                <td>{{ order.description }}</td>
+                <td>
+                  <span class="status-pill maintenance">
+                    🚧 En Progreso
+                  </span>
+                </td>
+                <td class="text-right">
+                  <button class="btn-success" (click)="finishMaintenance(order.id)">
+                    ✅ Finalizar Trabajo
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+</div>

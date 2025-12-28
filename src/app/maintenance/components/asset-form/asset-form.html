@@ -1,0 +1,73 @@
+<div class="page-wrapper">
+
+  <div class="form-card fade-in">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span>🏭</span>
+      </div>
+      <div class="header-text">
+        <h2>Registrar Nuevo Activo</h2>
+        <p>Ingresa los detalles técnicos del equipo para el inventario.</p>
+      </div>
+    </div>
+
+    <form [formGroup]="assetForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-body">
+
+        <div class="form-group">
+          <label for="name">Nombre del Equipo <span class="required">*</span></label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Ej. Torno Industrial CNC"
+            [class.error-border]="assetForm.get('name')?.invalid && assetForm.get('name')?.touched"
+          >
+          @if (assetForm.get('name')?.invalid && assetForm.get('name')?.touched) {
+            <span class="error-msg">El nombre es obligatorio.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="model">Modelo <span class="required">*</span></label>
+          <input
+            type="text"
+            id="model"
+            formControlName="model"
+            placeholder="Ej. Mazak QTE-200"
+            [class.error-border]="assetForm.get('model')?.invalid && assetForm.get('model')?.touched"
+          >
+          @if (assetForm.get('model')?.invalid && assetForm.get('model')?.touched) {
+            <span class="error-msg">El modelo es obligatorio.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="serialNumber">Número de Serie (Único) <span class="required">*</span></label>
+          <div class="input-with-hint">
+            <input
+              type="text"
+              id="serialNumber"
+              formControlName="serialNumber"
+              placeholder="Ej. SN-2025-001"
+              [class.error-border]="assetForm.get('serialNumber')?.invalid && assetForm.get('serialNumber')?.touched"
+            >
+            <small class="hint-text">Este ID se usará para rastrear mantenimientos.</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-footer">
+        <button type="button" class="btn-cancel" (click)="cancel()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-save" [disabled]="assetForm.invalid">
+          <span>💾</span> Guardar Activo
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="page-wrapper">
+
+  <div class="form-card fade-in">
+    <div class="card-header">
+      <div class="icon-wrapper maintenance-icon">
+        <span>🔧</span>
+      </div>
+      <div class="header-text">
+        <h2>Programar Mantenimiento</h2>
+        <p>Generando orden de servicio para el Activo <span class="asset-tag">#{{ assetId }}</span></p>
+      </div>
+    </div>
+
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-body">
+
+        <div class="form-group">
+          <label for="type">Tipo de Intervención</label>
+          <div class="select-wrapper">
+            <select id="type" formControlName="type">
+              <option value="PREVENTIVE">🛡️ Preventivo (Revisión programada)</option>
+              <option value="CORRECTIVE">🚨 Correctivo (Reparación de fallas)</option>
+            </select>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="scheduledDate">Fecha Programada</label>
+          <input
+            type="date"
+            id="scheduledDate"
+            formControlName="scheduledDate"
+            [class.error-border]="orderForm.get('scheduledDate')?.invalid && orderForm.get('scheduledDate')?.touched"
+          >
+          @if (orderForm.get('scheduledDate')?.invalid && orderForm.get('scheduledDate')?.touched) {
+            <span class="error-msg">Debes seleccionar una fecha.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción del Trabajo <span class="required">*</span></label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="4"
+            placeholder="Describe detalladamente las tareas a realizar..."
+            [class.error-border]="orderForm.get('description')?.invalid && orderForm.get('description')?.touched"
+          ></textarea>
+          @if (orderForm.get('description')?.invalid && orderForm.get('description')?.touched) {
+            <span class="error-msg">La descripción es obligatoria.</span>
+          }
+        </div>
+
+      </div>
+
+      <div class="form-footer">
+        <button type="button" class="btn-cancel" (click)="cancel()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-save" [disabled]="orderForm.invalid">
+          <span>📅</span> Agendar Orden
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

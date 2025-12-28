@@ -3,14 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
+import {HttpClientModule} from '@angular/common/http';
+import { AssetList } from './maintenance/components/asset-list/asset-list';
+import { MaintenanceForm } from './maintenance/components/maintenance-form/maintenance-form';
+import { AssetForm } from './maintenance/components/asset-form/asset-form';
 
 @NgModule({
   declarations: [
-    App
+    App,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    AssetList,
+    MaintenanceForm,
+    AssetForm
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
